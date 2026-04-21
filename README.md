@@ -20,6 +20,7 @@ That's it. Pick your agents, log in, and Paper Lantern is configured.
 - GitHub Copilot (VS Code)
 - Codex
 - Gemini CLI
+- Cline
 
 Prefer to set up manually, or using a client not listed above? See [paperlantern.ai/docs](https://paperlantern.ai/docs) for per-agent config snippets and the raw MCP endpoint.
 

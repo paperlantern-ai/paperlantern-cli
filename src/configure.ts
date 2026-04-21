@@ -174,6 +174,16 @@ export function findExistingKey(): string | null {
     }
   }
 
+  // Cline (globalStorage under VS Code)
+  for (const clinePath of clineConfigPaths()) {
+    const config = readJsonSafe(clinePath);
+    const entry = config.mcpServers?.[SERVER_NAME];
+    if (entry?.url) {
+      const match = entry.url.match(/[?&]key=(pl_[a-f0-9]+)/);
+      if (match) return match[1];
+    }
+  }
+
   // Codex TOML
   const codexPath = path.join(home, ".codex", "config.toml");
   const toml = readFileSafe(codexPath);
@@ -192,6 +202,18 @@ function vsCodeConfigPaths(): string[] {
     return [path.join(home, "AppData", "Roaming", "Code", "User", "mcp.json")];
   }
   return [path.join(home, ".config", "Code", "User", "mcp.json")];
+}
+
+function clineConfigPaths(): string[] {
+  const home = os.homedir();
+  const platform = process.platform;
+  const suffix = ["globalStorage", "saoudrizwan.claude-dev", "settings", "cline_mcp_settings.json"];
+  if (platform === "darwin") {
+    return [path.join(home, "Library", "Application Support", "Code", "User", ...suffix)];
+  } else if (platform === "win32") {
+    return [path.join(home, "AppData", "Roaming", "Code", "User", ...suffix)];
+  }
+  return [path.join(home, ".config", "Code", "User", ...suffix)];
 }
 
 // --- Client definitions ---
@@ -277,6 +299,14 @@ function defineClients(): Record<string, ClientDef> {
         source: path.join(ruleDir, "common_rule.md"),
         dest: path.join(home, ".gemini", "GEMINI.md"),
       },
+    },
+    "cline": {
+      name: "Cline",
+      configWriter: (key) => {
+        const configPath = clineConfigPaths()[0];
+        return { action: writeMcpServersBareUrl(configPath, key), configPath };
+      },
+      postInstall: "Cline's custom instructions live in VS Code settings (`cline.customInstructions`). Paste the Paper Lantern activation rule from paperlantern.ai/docs into that field if you want the agent to follow it.",
     },
   };
 }
@@ -413,6 +443,12 @@ export function unconfigureMcp(client: string): UninstallResult | null {
   } else if (client === "copilot") {
     for (const p of vsCodeConfigPaths()) {
       if (removeMcpEntry(p, "servers")) {
+        steps.push(`Removed MCP server from ${p}`);
+      }
+    }
+  } else if (client === "cline") {
+    for (const p of clineConfigPaths()) {
+      if (removeMcpEntry(p, "mcpServers")) {
         steps.push(`Removed MCP server from ${p}`);
       }
     }

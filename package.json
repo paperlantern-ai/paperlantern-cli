@@ -1,7 +1,7 @@
 {
   "name": "paperlantern",
-  "version": "0.2.2",
-  "description": "Research intelligence that makes your AI coding agent smarter — one command setup",
+  "version": "0.3.0",
+  "description": "Research intelligence that makes your AI coding agent smarter - one command setup",
   "homepage": "https://paperlantern.ai",
   "bin": {
     "paperlantern": "./dist/index.mjs"
@@ -31,6 +31,8 @@
     "copilot",
     "windsurf",
     "codex",
+    "gemini",
+    "cline",
     "chatgpt",
     "ai-agent",
     "coding-agent",

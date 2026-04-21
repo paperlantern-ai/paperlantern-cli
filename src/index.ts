@@ -30,6 +30,7 @@ const CLIENT_CHOICES = [
   { name: "GitHub Copilot (VS Code)", value: "copilot" },
   { name: "Codex", value: "codex" },
   { name: "Gemini CLI", value: "gemini" },
+  { name: "Cline", value: "cline" },
 ];
 
 async function uninstall() {
