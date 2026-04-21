@@ -12,14 +12,6 @@ npx paperlantern@latest
 
 That's it. Pick your agents, log in, and Paper Lantern is configured.
 
-### Claude Code (manual)
-
-```
-claude mcp add --transport http -s user paper-lantern https://mcp.paperlantern.ai/chat/mcp?key=YOUR_KEY
-```
-
-This adds the MCP server but does not install agent rules. Use `npx paperlantern@latest` for the full setup.
-
 ## Supported agents
 
 - Claude Code
@@ -28,6 +20,8 @@ This adds the MCP server but does not install agent rules. Use `npx paperlantern
 - GitHub Copilot (VS Code)
 - Codex
 - Gemini CLI
+
+Prefer to set up manually, or using a client not listed above? See [paperlantern.ai/docs](https://paperlantern.ai/docs) for per-agent config snippets and the raw MCP endpoint.
 
 ## What it does
 
