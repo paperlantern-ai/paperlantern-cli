@@ -77,6 +77,21 @@ function writeMcpServersBareUrl(configPath: string, key: string): string {
   return existed ? "reconfigured" : "configured";
 }
 
+/** JSON config with "mcpServers" key and { type: "streamableHttp", url } entry (Cline) */
+function writeMcpServersStreamableHttp(configPath: string, key: string): string {
+  const config = readJsonSafe(configPath);
+  if (!config.mcpServers) config.mcpServers = {};
+  const existing = config.mcpServers[SERVER_NAME];
+  const desired = { type: "streamableHttp", url: serverUrl(key) };
+  if (existing && existing.type === desired.type && existing.url === desired.url) {
+    return "already up to date";
+  }
+  const existed = SERVER_NAME in config.mcpServers;
+  config.mcpServers[SERVER_NAME] = desired;
+  writeFileSafe(configPath, JSON.stringify(config, null, 2) + "\n");
+  return existed ? "reconfigured" : "configured";
+}
+
 /** TOML config with [mcp_servers.*] tables (Codex CLI) */
 function writeCodexToml(configPath: string, key: string): string {
   const content = readFileSafe(configPath);
@@ -304,9 +319,9 @@ function defineClients(): Record<string, ClientDef> {
       name: "Cline",
       configWriter: (key) => {
         const configPath = clineConfigPaths()[0];
-        return { action: writeMcpServersBareUrl(configPath, key), configPath };
+        return { action: writeMcpServersStreamableHttp(configPath, key), configPath };
       },
-      postInstall: "Cline's custom instructions live in VS Code settings (`cline.customInstructions`). Paste the Paper Lantern activation rule from paperlantern.ai/docs into that field if you want the agent to follow it.",
+      postInstall: "Reload the VS Code window (Cmd/Ctrl-Shift-P -> Reload Window) so Cline picks up the new MCP server. Cline's custom instructions live in VS Code settings (`cline.customInstructions`) - paste the Paper Lantern activation rule from paperlantern.ai/docs there if you want the agent to follow it.",
     },
   };
 }

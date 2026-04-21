@@ -1,6 +1,6 @@
 {
   "name": "paperlantern",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Research intelligence that makes your AI coding agent smarter - one command setup",
   "homepage": "https://paperlantern.ai",
   "bin": {
