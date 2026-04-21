@@ -1,0 +1,45 @@
+{
+  "name": "paperlantern",
+  "version": "0.2.2",
+  "description": "Research intelligence that makes your AI coding agent smarter — one command setup",
+  "homepage": "https://paperlantern.ai",
+  "bin": {
+    "paperlantern": "./dist/index.mjs"
+  },
+  "files": [
+    "dist",
+    "rules"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --target node20 --clean",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^7.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "tsup": "^8.0.0"
+  },
+  "license": "MIT",
+  "keywords": [
+    "claude",
+    "cursor",
+    "copilot",
+    "windsurf",
+    "codex",
+    "chatgpt",
+    "ai-agent",
+    "coding-agent",
+    "coding-assistant",
+    "code-quality",
+    "best-practices",
+    "algorithms",
+    "performance",
+    "architecture",
+    "paper-lantern"
+  ]
+}
